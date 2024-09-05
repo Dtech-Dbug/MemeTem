@@ -1,0 +1,67 @@
+.card {
+  --background: linear-gradient(to right, #13b37f 0%, #11a3c8 100%);
+  width: 100%;
+  height: 200px;
+  padding: 0.9px;
+  border-radius: 0.7rem;
+  overflow: hidden; /* Hide overflow to apply the blur effect */
+  position: relative;
+  cursor: pointer;
+}
+
+.card img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* Cover the card area */
+  transition: filter 0.3s ease;
+}
+
+.card-blurred img {
+  filter: blur(5px); /* Blur effect on the image */
+}
+
+.card-info {
+  --color: #1f1a1d;
+  background: var(--color);
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  transition: opacity 0.3s ease;
+  opacity: 0; /* Initially hidden */
+}
+
+.card-info.show {
+  opacity: 1; /* Show the download button */
+}
+
+.download-button {
+  background-color: rgba(255, 255, 255, 0.8); /* Semi-transparent background */
+  color: #1f1a1d;
+  border: none;
+  border-radius: 50%;
+  padding: 10px;
+  font-size: 24px;
+  cursor: pointer;
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.card-info.show .download-button {
+  animation: pop-up 0.3s ease forwards;
+}
+
+@keyframes pop-up {
+  0% {
+    opacity: 0;
+    transform: scale(0);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
