@@ -22,12 +22,18 @@
 }
 
 
-.Meme-template-container{
-  display: grid;
-  grid-template-columns: repeat(2, 1fr); /* Creates two equal columns */
-  gap: 16px; /* Space between grid items */
-  padding: 16px; 
+.Meme-template-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); /* Dynamic number of columns */
+    gap: 16px; /* Space between grid items */
+    padding: 16px;
 }
+  
+.Meme-template-container img {
+    width: 100%; /* Make the image fill the entire grid item width */
+    height: auto; /* Maintain the image aspect ratio */
+}
+  
 
 img {
   height: 100%;
