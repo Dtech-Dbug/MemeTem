@@ -1,0 +1,21 @@
+{
+  "name": "memetembackend",
+  "version": "1.0.0",
+  "description": "this is backend server made for scraping data for memes",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "nodemon server.js",
+    "start": "node server.js"
+  },
+  "author": "piyushpatelcodes",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^1.7.7",
+    "cheerio": "^1.0.0",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "express": "^4.21.0",
+    "nodemon": "^3.1.7"
+  }
+}
