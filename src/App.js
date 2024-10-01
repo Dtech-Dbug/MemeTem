@@ -136,7 +136,7 @@ function App() {
         <button
           onClick={loadMoreImages}
           disabled={loading}
-          className="mt-4 p-2 bg-blue-500 text-white rounded hover:bg-blue-600"
+          className="m-4 p-2 bg-blue-500 text-white rounded hover:bg-blue-600"
         >
           Load More
         </button>
