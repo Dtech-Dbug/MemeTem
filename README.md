@@ -1,70 +1,29 @@
-# Getting Started with Create React App
+# Meme Templates Repository
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Welcome to the Meme Templates Repository! 🚀
 
-## Available Scripts
+This project aims to be a **one-stop destination for all meme templates and memes**. The goal is to build a comprehensive collection that anyone can contribute to and use. We welcome contributors of all levels to help make this project even better! 🙌 
 
-In the project directory, you can run:
+Currently the templates are scraped from this source : `https://imgflip.com/memetemplates`
 
-### `npm start`
+## How You Can Contribute:
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+### 1. **UI Styles** 🎨
+   - We want to improve the look and feel of the project! Help us refine and create better UI styles that will enhance user experience.
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+### 2. **Documentation** 📝
+   - The current documentation can be improved. We'd love your help in writing better docs for newcomers, users, and contributors alike!
 
-### `npm test`
+### 3. **Scraping Links** 🔗
+   - Right now, we are using static links to render images. If you can help us scrape better sources for meme images or find efficient ways to manage links (without a backend), we'd greatly appreciate it!
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## Vision Board 🌟
 
-### `npm run build`
+- **Meme Section**: In the future, we plan to have a dedicated section for actual memes.
+- **Categories**: Adding categories to organize memes better is part of our long-term goal.
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+Let's build something fun together! Feel free to contribute, give feedback, or share your thoughts with us. 😄
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+---
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+_For any queries or to get involved, open an issue or submit a pull request!_
