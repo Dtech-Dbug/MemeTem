@@ -4,12 +4,12 @@ We welcome contributions of all kinds! To make the process easy for everyone, pl
 
 ## Contribution Guidelines
 
-1. **Fork the Repo**  
-   Start by forking the repository, then clone it to your local machine.
+1. **Star the Repo - Clone**  
+   Start by star'ing the repository, then clone it to your local machine.
 
 2. **Create a Branch**  
    Always branch off from `main` or `master`.  
-   Name your feature branch using the format `task-contributor`, e.g., `update-docs-henry` or `UI-styles-john-doe`.
+   Name your feature branch using the format `task-contributor`, e.g., `update-docs-henry` or `UI-styles-john-doe`. And make sure to run `git pull rebase master/main` to make sure you have the latest artefacts.
 
 3. **Raise a Pull Request (PR)**  
    When you're ready, raise a PR to `main` or `master` for review and eventual merge.
