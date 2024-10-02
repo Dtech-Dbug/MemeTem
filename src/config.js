@@ -3,7 +3,7 @@ const config = {
       BASE_URL: "http://localhost:8080",
     },
     production: {
-      BASE_URL: "https://your-production-backend-url.com",
+      BASE_URL: "https://memetembackend.onrender.com",
     },
   };
   
