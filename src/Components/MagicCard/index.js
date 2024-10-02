@@ -35,12 +35,7 @@ export const MagiCCard = ({ imageUrl, altText }) => {
           showDownload ? "opacity-100" : "opacity-0"
         }`}
       >
-        <button
-          className="download-button bg-blue-500 text-white p-2 rounded"
-          onClick={handleDownload}
-        >
-          <i className="fas fa-download"></i>
-        </button>
+      
       </div>
     </div>
   );

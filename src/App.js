@@ -1,9 +1,4 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
-import { MagiCCard } from "./Components/MagicCard/index";
-import { FiSearch } from "react-icons/fi";
-import { MdOutlineAutoFixHigh } from "react-icons/md";
-import REACT_BASE_URL from './config';
 import "./App.css";
 import HomePage from "./Pages/HomePage";
 import SplashScreen from "./Components/SplashScreen";
