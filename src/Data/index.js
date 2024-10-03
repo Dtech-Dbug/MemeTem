@@ -157,4 +157,8 @@ export const MemeTempData = [
   "https://i.imgflip.com/4/1bht.jpg",
   "https://i.imgflip.com/4/1bh5.jpg",
   "https://i.imgflip.com/4/28jv9z.jpg"
+<<<<<<< HEAD
 ];
+=======
+];
+>>>>>>> upstream/main
