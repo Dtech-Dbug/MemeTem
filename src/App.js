@@ -10,14 +10,14 @@ function App() {
     // Check if the splash screen has already been shown during this session
     const splashShown = sessionStorage.getItem("splashShown");
 
-    if (false) {
+    if (splashShown) {
       setLoading(false); // If splash screen was shown, don't show it again
     } else {
       // Show splash screen for the first time during this session
       const timer = setTimeout(() => {
         setLoading(false);
         sessionStorage.setItem("splashShown", "true"); // Set flag so it doesn't show again in this session
-      }, 10000); // Adjust your splash screen duration
+      }, 3000); // Adjust your splash screen duration
 
       return () => clearTimeout(timer);
     }
