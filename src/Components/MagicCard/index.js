@@ -1,4 +1,3 @@
-import React, { useState } from "react";
 import "./index.css";
 import { MdExpandMore } from "react-icons/md";
 

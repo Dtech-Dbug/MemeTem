@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { FaLaughSquint, FaTimes, FaBars } from 'react-icons/fa';
-import { FiTrendingUp, FiSearch } from 'react-icons/fi';
+import { FaTimes, FaBars } from 'react-icons/fa';
+import { FiTrendingUp } from 'react-icons/fi';
 import { MdExplore } from "react-icons/md";
 import { HiMiniHome } from "react-icons/hi2";
 import { BsCollectionFill } from "react-icons/bs";
