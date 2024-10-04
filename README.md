@@ -27,3 +27,25 @@ Let's build something fun together! Feel free to contribute, give feedback, or s
 ---
 
 _For any queries or to get involved, open an issue or submit a pull request!_
+
+## For Devs & Contributers 🧑🏻‍💻
+- To Use the scrappers, you need this **`server.js file.`**  
+- First Initialize a Backend in **`Nodejs`**
+- Then Paste this **`server.js`** file as Main file in place of **`index.js file.`**
+- Now You can run the Backend and Use **`pMemeScrapper.js file`** to run scrapper and extract mems in a **`JSON format`**
+- **`DO NOT` Try to `Remove Any ERROR`** in **`server.js file`**. These are not error, Actually these are warnings and **can be Ignored.**
+
+To Know How to use **`pMemeScrapper.js file`** Check this.
+
+> ### How to Use **`pMemeScrapper.js file`** <br>
+> In the file, you can replace the URL to scrape with your own URL. Please note that this may require you to adjust the scraping logic unless you are scraping from the specified website. <br>
+> This File will Automatically Load Scrapped Data in **`scrappedImages.json file`** , After This You Can add this Scrapped Data in **`Data/memeTemplates Folder`** and Import it in **`Collections.jsx file.`**
+
+> [!NOTE]
+> Please Update **`Data/memeTemplates/category.md file`** Documentation if You add more scrappings.
+
+## Thanks to Our Contributers
+
+<a href="https://github.com/Dtech-Dbug/MemeTem/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=Dtech-Dbug/MemeTem" />
+</a>
