@@ -43,6 +43,7 @@ const Navbar = () => {
             </motion.a>
             <motion.a
               whileHover={{ scale: 1.1 }}
+              onClick={()=>{window.location.assign("/collections")}}
               className="px-3 gap-1 py-2 flex items-center rounded-md text-lg font-medium transition-all duration-300 hover:bg-blue-700 cursor-pointer" 
             >
               <FiTrendingUp/>Trending
