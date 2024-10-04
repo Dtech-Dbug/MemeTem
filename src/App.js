@@ -18,8 +18,8 @@ function App() {
       // Show splash screen for the first time during this session
       const timer = setTimeout(() => {
         setLoading(false);
-        sessionStorage.setItem("splashShown", "true"); // Set flag so it doesn't show again in this session
-      }, 3000); // Adjust your splash screen duration
+        sessionStorage.setItem("splashShown", "true"); 
+      }, 3000); 
 
       return () => clearTimeout(timer);
     }

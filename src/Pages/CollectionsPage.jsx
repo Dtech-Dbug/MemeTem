@@ -1,45 +1,48 @@
-import React, { useState, useEffect } from "react";
-import axios from "axios";
+import React, { useState, useEffect, useCallback } from "react";
 import { MagiCCard } from '../Components';
 import { FiSearch } from "react-icons/fi";
 import { MdOutlineAutoFixHigh } from "react-icons/md";
-import REACT_BASE_URL from '../config';
 import MemeModal from '../Components/modals/mememodal'; 
 
+// Import JSON files
+import memeData1 from '../Data/memeTemplates/top.json';
+import memeData2 from '../Data/memeTemplates/tvshows.json';
+import memeData3 from '../Data/memeTemplates/nsfw.json';
+
+// Ensure the imported data is in array format
+const allMemeData = [
+  ...(Array.isArray(memeData1) ? memeData1 : []),
+  ...(Array.isArray(memeData2) ? memeData2 : []),
+  ...(Array.isArray(memeData3) ? memeData3 : [])
+];
+
 const CollectionPage = () => {
-  const BASE_URL = "https://imgflip.com/memetemplates?sort=top-all-time";
-  const [memeTemplates, setMemeTemplates] = useState([]);
+  const [memeTemplates, setMemeTemplates] = useState([]); // Displayed memes
   const [currentPage, setCurrentPage] = useState(1);
   const [loading, setLoading] = useState(false);
   const [hasMore, setHasMore] = useState(true);
   const [searchQuery, setSearchQuery] = useState("");
   const [suggestions, setSuggestions] = useState([]); 
-  const [showSuggestions, setShowSuggestions] = useState(true); 
-  const [isModalOpen, setIsModalOpen] = useState(false); // State for modal visibility
-  const [selectedMeme, setSelectedMeme] = useState(null); // State for selected meme
+  const [showSuggestions, setShowSuggestions] = useState(false); 
+  const [isModalOpen, setIsModalOpen] = useState(false); 
+  const [selectedMeme, setSelectedMeme] = useState(null); 
 
-  const scrapeImagesFromPage = async (page) => {
-    try {
-      const response = await axios.get(
-        `${REACT_BASE_URL}/scrape?url=${encodeURIComponent(`${BASE_URL}&page=${page}`)}`
-      );
-      return response.data;
-    } catch (error) {
-      console.error(`Error scraping page ${page}:`, error);
-      return [];
-    }
-  };
+  const memesPerPage = 50; // Number of memes to load per page
 
-  const loadImages = async () => {
+  // Lazy load images
+  const loadImages = () => {
     if (loading || !hasMore) return;
 
     setLoading(true);
-    const memes = await scrapeImagesFromPage(currentPage);
+    
+    const startIndex = (currentPage - 1) * memesPerPage;
+    const endIndex = startIndex + memesPerPage;
+    const newMemes = allMemeData.slice(startIndex, endIndex);
 
-    if (memes.length === 0) {
-      setHasMore(false); 
+    if (newMemes.length === 0) {
+      setHasMore(false);
     } else {
-      setMemeTemplates((prevMemes) => [...prevMemes, ...memes]);
+      setMemeTemplates((prevMemes) => [...prevMemes, ...newMemes]);
       setCurrentPage((prevPage) => prevPage + 1);
     }
 
@@ -47,20 +50,41 @@ const CollectionPage = () => {
   };
 
   useEffect(() => {
-    loadImages();
-  }, []);
+    if (!searchQuery) {
+      // Load first 50 images if search bar is empty
+      setMemeTemplates([]); // Clear the current memes
+      setCurrentPage(1); // Reset pagination
+      setHasMore(true); // Ensure more memes can be loaded
+      loadImages();
+    }
+  }, [searchQuery]); // Run whenever the search query changes
 
-  const loadMoreImages = () => {
-    loadImages(); 
-  };
+  // Search Debounce Logic
+  const debounceSearch = useCallback(
+    (callback, delay) => {
+      let timer;
+      return (value) => {
+        clearTimeout(timer);
+        timer = setTimeout(() => {
+          callback(value);
+        }, delay);
+      };
+    },
+    []
+  );
 
-  const filteredMemes = memeTemplates.filter((meme) =>
+  const handleSearchChange = debounceSearch((query) => {
+    setSearchQuery(query);
+    setShowSuggestions(true);
+  }, 300); // 300ms debounce
+
+  const filteredMemes = allMemeData.filter((meme) =>
     meme.alt.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
   useEffect(() => {
     if (searchQuery && showSuggestions) {
-      setSuggestions(filteredMemes.slice(0, 5)); 
+      setSuggestions(filteredMemes.slice(0, 5));
     } else {
       setSuggestions([]);
     }
@@ -68,28 +92,22 @@ const CollectionPage = () => {
 
   const handleKeyDown = (event) => {
     if (event.key === "Enter") {
-      setShowSuggestions(false); 
+      setShowSuggestions(false);
     }
   };
 
   const handleClearSuggestions = () => {
-    setShowSuggestions(false); 
-    setSuggestions([]); 
-  };
-
-  const handleSearchChange = (e) => {
-    setSearchQuery(e.target.value);
-    setShowSuggestions(true); 
+    setShowSuggestions(false);
+    setSuggestions([]);
   };
 
   const handleMemeClick = (meme) => {
-    setSelectedMeme(meme); // Set the selected meme
-    setIsModalOpen(true); // Open the modal
+    setSelectedMeme(meme);
+    setIsModalOpen(true);
   };
 
   return (
     <div className="App">
-
       <div className="z-50 flex justify-center my-6 relative">
         <div className="relative w-full max-w-lg">
           <FiSearch className="absolute left-3 top-3 text-gray-400" size={24} />
@@ -97,8 +115,7 @@ const CollectionPage = () => {
             type="text"
             placeholder="Search for your favorite memes..."
             className="border-2 border-gray-300 rounded-full pl-10 pr-10 py-3 w-full bg-white bg-opacity-30 backdrop-blur-md text-gray-800 focus:outline-none focus:ring-4 focus:ring-green-300 transition-all duration-300 ease-in-out shadow-lg placeholder-gray-500"
-            value={searchQuery}
-            onChange={handleSearchChange} 
+            onChange={(e) => handleSearchChange(e.target.value)} // Using debounce for search
             onKeyDown={handleKeyDown} 
           />
           <MdOutlineAutoFixHigh
@@ -107,7 +124,7 @@ const CollectionPage = () => {
             onClick={handleClearSuggestions} 
           />
           {showSuggestions && suggestions.length > 0 && (
-            <ul className="z-2 absolute top-full mt-2 w-full bg-white bg-opacity-80 backdrop-blur-lg shadow-lg rounded-lg py-2 z-10">
+            <ul className="absolute top-full mt-2 w-full bg-white bg-opacity-80 backdrop-blur-lg shadow-lg rounded-lg py-2 z-10">
               {suggestions.map((suggestion, index) => (
                 <li
                   key={index}
@@ -124,23 +141,32 @@ const CollectionPage = () => {
 
       {/* Meme Templates Display */}
       <div className="Meme-template-container grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 p-4">
-        {filteredMemes.length > 0 ? (
-          filteredMemes.map((meme, index) => (
-            <div key={index} onClick={() => handleMemeClick(meme)}>
-              <MagiCCard imageUrl={meme.src} altText={meme.alt} />
-            </div>
+        {searchQuery
+          ? (filteredMemes.length > 0 ? (
+            filteredMemes.map((meme, index) => (
+              <div key={index} onClick={() => handleMemeClick(meme)}>
+                <MagiCCard imageUrl={meme.src} altText={meme.alt} />
+              </div>
+            ))
+          ) : (
+            <p>No memes found.</p>
           ))
-        ) : (
-          <p>No memes found.</p>
-        )}
+          : (
+            memeTemplates.map((meme, index) => (
+              <div key={index} onClick={() => handleMemeClick(meme)}>
+                <MagiCCard imageUrl={meme.src} altText={meme.alt} />
+              </div>
+            ))
+          )
+        }
       </div>
 
       {loading && <p>Loading...</p>}
       {hasMore && (
         <button
-          onClick={loadMoreImages}
+          onClick={loadImages}
           disabled={loading}
-          className="m-4 p-2  bg-blue-500 text-white rounded hover:bg-blue-600"
+          className="m-4 p-2 bg-blue-500 text-white rounded hover:bg-blue-600"
         >
           Load More
         </button>
@@ -150,6 +176,6 @@ const CollectionPage = () => {
       <MemeModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} meme={selectedMeme} />
     </div>
   );
-}
+};
 
 export default CollectionPage;
