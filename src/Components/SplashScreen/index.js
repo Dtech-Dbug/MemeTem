@@ -8,16 +8,20 @@ const SplashScreen = () => {
   const { letterAnimation, container } = useSplashScreen();
 
   return (
-    <div className="splash-screen h-screen flex flex-col justify-center items-center bg-blue-500 text-white">
-      {/* Letter animation */}
+    <div className="splash-screen h-screen flex flex-col justify-center items-center bg-custom-purple text-[#CF5EC8] text-opacity-40">
+      {/* Letter animation with text glass effect */}
       <motion.div
-        className="flex space-x-2 text-6xl font-bold tracking-widest"
+        className="flex space-x-2 text-7xl font-bold tracking-widest"
         variants={container}
         initial="initial"
         animate="animate"
       >
         {letters.map((letter, index) => (
-          <motion.span key={index} variants={letterAnimation}>
+          <motion.span
+            key={index}
+            variants={letterAnimation}
+            className="relative"
+          >
             {letter}
           </motion.span>
         ))}
