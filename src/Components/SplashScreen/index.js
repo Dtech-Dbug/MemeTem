@@ -1,35 +1,11 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { motion } from "framer-motion";
-import JSConfetti from "js-confetti";
+import useSplashScreen from "./useSplashScreen";
 
 const letters = "MEMETEM".split(""); // Split the heading into an array of letters
 
-const letterAnimation = {
-  initial: { y: 50, opacity: 0 },
-  animate: { y: 0, opacity: 1 },
-  transition: { duration: 0.5, ease: "easeOut" },
-};
-
-const container = {
-  animate: {
-    transition: {
-      staggerChildren: 0.15,
-    },
-  },
-};
-
 const SplashScreen = () => {
-  useEffect(() => {
-    // Initialize JSConfetti instance
-    const jsConfetti = new JSConfetti();
-
-    // Launch confetti with emojis
-    jsConfetti.addConfetti({
-      emojis: ["😂", "🤣", "😆", "😹"],
-      emojiSize: 50,
-      confettiNumber: 50,
-    });
-  }, []);
+  const { letterAnimation, container } = useSplashScreen();
 
   return (
     <div className="splash-screen h-screen flex flex-col justify-center items-center bg-blue-500 text-white">
@@ -47,7 +23,8 @@ const SplashScreen = () => {
         ))}
       </motion.div>
 
-      {/* Subtitle animation */}
+      {/* Subtitle animation  */}
+
       <motion.p
         className="splash-subtitle text-xl font-light mt-4 text-gray-300 animate-pulse"
         initial={{ y: 100, opacity: 0 }}
