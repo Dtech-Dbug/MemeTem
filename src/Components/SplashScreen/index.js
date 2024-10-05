@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import JSConfetti from "js-confetti";
 
@@ -19,21 +19,31 @@ const container = {
 };
 
 const SplashScreen = () => {
-  useEffect(() => {
-    // Initialize JSConfetti instance
-    const jsConfetti = new JSConfetti();
+  const [showConfetti, setShowConfetti] = useState(false);
 
-    // Launch confetti with emojis
-    jsConfetti.addConfetti({
-      emojis: ["😂", "🤣", "😆", "😹"],
-      emojiSize: 50,
-      confettiNumber: 50,
-    });
+  useEffect(() => {
+    // Check if confetti has been shown this session
+    const confettiShown = sessionStorage.getItem("confettiShown");
+
+    if (!confettiShown) {
+      setShowConfetti(true);
+      sessionStorage.setItem("confettiShown", "true");
+    }
   }, []);
+
+  useEffect(() => {
+    if (showConfetti) {
+      const jsConfetti = new JSConfetti();
+      jsConfetti.addConfetti({
+        emojis: ["😂", "🤣", "😆", "😹"],
+        emojiSize: 50,
+        confettiNumber: 50,
+      });
+    }
+  }, [showConfetti]);
 
   return (
     <div className="splash-screen h-screen flex flex-col justify-center items-center bg-blue-500 text-white">
-      {/* Letter animation */}
       <motion.div
         className="flex space-x-2 text-6xl font-bold tracking-widest"
         variants={container}
@@ -47,7 +57,6 @@ const SplashScreen = () => {
         ))}
       </motion.div>
 
-      {/* Subtitle animation */}
       <motion.p
         className="splash-subtitle text-xl font-light mt-4 text-gray-300 animate-pulse"
         initial={{ y: 100, opacity: 0 }}
