@@ -26,6 +26,7 @@ const Navbar = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, type: 'spring' }}
             className="flex-shrink-0 flex items-center"
+            onClick={()=>{window.location.assign("/")}}
           >
             <GiCardJoker className="text-3xl" />
             <span className="ml-2 font-bold text-2xl tracking-wide">
@@ -43,7 +44,7 @@ const Navbar = () => {
             </motion.a>
             <motion.a
               whileHover={{ scale: 1.1 }}
-              onClick={()=>{window.location.assign("/collections")}}
+              onClick={()=>{window.location.assign("/working")}}
               className="px-3 gap-1 py-2 flex items-center rounded-md text-lg font-medium transition-all duration-300 hover:bg-blue-700 cursor-pointer" 
             >
               <FiTrendingUp/>Trending
@@ -57,7 +58,7 @@ const Navbar = () => {
             </motion.a>
             <motion.a
               whileHover={{ scale: 1.1 }}
-              onClick={()=>{window.location.assign("/collections")}}
+              onClick={()=>{window.location.assign("/working")}}
               className="px-3 gap-1 py-2 flex items-center rounded-md text-lg font-medium transition-all duration-300 hover:bg-blue-700 cursor-pointer"            >
               <MdExplore />Explore 
             </motion.a>
@@ -89,7 +90,7 @@ const Navbar = () => {
               Home
             </a>
             <a
-              href="/collections"
+              href="/trending"
               className="block px-4 py-2 rounded-md text-lg font-medium transition-all duration-300 hover:bg-blue-700"
             >
               Trending
