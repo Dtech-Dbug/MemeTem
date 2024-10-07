@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import JSConfetti from "js-confetti";
 
 const letterAnimation = {
@@ -16,19 +16,28 @@ const container = {
 };
 
 const useSplashScreen = () => {
-  useEffect(() => {
-    // Initialize JSConfetti instance
-    const jsConfetti = new JSConfetti();
+  const [showConfetti, setShowConfetti] = useState(false);
 
-    // Launch confetti with emojis
-    jsConfetti.addConfetti({
-      emojis: ["😂", "🤣", "😆", "😹"],
-      emojiSize: 50,
-      confettiNumber: 50,
-    });
+  useEffect(() => {
+    const confettiShown = sessionStorage.getItem("confettiShown");
+    if (!confettiShown) {
+      setShowConfetti(true);
+      sessionStorage.setItem("confettiShown", "true");
+    }
   }, []);
 
-  return { letterAnimation, container };
+  useEffect(() => {
+    if (showConfetti) {
+      const jsConfetti = new JSConfetti();
+      jsConfetti.addConfetti({
+        emojis: ["😂", "🤣", "😆", "😹"],
+        emojiSize: 50,
+        confettiNumber: 50,
+      });
+    }
+  }, [showConfetti]);
+
+  return { letterAnimation, container, showConfetti };
 };
 
 export default useSplashScreen;
