@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import "./App.css";
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import CollectionsPage from './Pages/TemplateCollections/index';
+import WorkInProgress from "./Components/workInProgress/workInProgress";
 import HomePage from './Pages/HomePage';
 import SplashScreen from "./Components/SplashScreen";
 import Navbar from './Components/navs/navbar'
@@ -36,6 +37,7 @@ function App() {
           <Routes>
             <Route path="/" element={<HomePage />} />
             <Route path="/collections" element={<CollectionsPage />} />
+            <Route path="/working" element={<WorkInProgress/>}/>
           </Routes>
         )}
       </div>
