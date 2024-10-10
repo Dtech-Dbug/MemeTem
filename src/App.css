@@ -40,3 +40,6 @@ img {
   width: 100%;
  border-radius: 0.7em;
 }
+::-webkit-scrollbar{
+  display: none;
+}
