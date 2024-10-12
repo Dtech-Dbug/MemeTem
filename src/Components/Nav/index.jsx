@@ -25,7 +25,7 @@ const Navbar = () => {
             initial={{ opacity: 0, y: -50 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, type: 'spring' }}
-            className="flex-shrink-0 flex items-center"
+            className="flex-shrink-0 flex items-center cursor-pointer"
             onClick={()=>{window.location.assign("/")}}
           >
             <GiCardJoker className="text-3xl" />
