@@ -37,9 +37,18 @@ const MemeModal = ({ isOpen, onClose, meme }) => {
 
         try {
           const img = await FabricImage.fromURL(meme.src);
-          if (!signal.aborted) {  // Only add image if not aborted
-            img.scaleToWidth(500);
-            img.scaleToHeight(500);
+          if (!signal.aborted) {  // Only add image if not aborted 
+
+            const maxWidth = canvas.getWidth();
+            const maxHeight = canvas.getHeight();
+            const scale = Math.min(maxWidth / img.width, maxHeight / img.height);
+
+            img.scale(scale);
+            img.set({
+              left: (maxWidth - img.width * scale) / 2,
+              top: (maxHeight - img.height * scale) / 2,
+              selectable: false,
+            });
             canvas.add(img);
             canvas.renderAll();
           }
@@ -105,7 +114,7 @@ const MemeModal = ({ isOpen, onClose, meme }) => {
         </button>
 
         {isEditing ? (
-          <canvas ref={canvasRef} className="w-full h-96 border rounded-lg" />
+          <canvas ref={canvasRef} className="max-w-full max-h-[60vh] object-contain rounded-lg mb-4" />
         ) : (
           <img
             src={meme.src}
