@@ -107,7 +107,10 @@ const MemeModal = ({ isOpen, onClose, meme }) => {
         className="bg-white rounded-lg shadow-lg max-w-lg w-full p-6"
       >
         <button
-          onClick={onClose}
+          onClick={() => {
+            setIsEditing(false);  // Reset editing state on close
+            onClose();
+          }}
           className="absolute top-2 right-2 text-gray-600 hover:text-gray-800 transition duration-200 z-10"
         >
           <AiOutlineClose size={24} />
@@ -124,22 +127,34 @@ const MemeModal = ({ isOpen, onClose, meme }) => {
         )}
 
         <h2 className="text-xl font-semibold mb-2 text-center">{meme.alt}</h2>
+        <div className="flex flex-col gap-3">
+          <div className="flex gap-4">
+            <button onClick={handleDownload} className="flex-1 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition duration-300">
+              {isEditing ? "Download Edited Meme" : "Download Meme"}
+            </button>
+            <button onClick={handleEdit} className="flex-1 px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600 transition duration-300">
+              {isEditing ? "Cancel Editing" : "Edit Meme"}
+            </button>
+          </div>
 
-        <div className="flex gap-4">
-          <button
-            onClick={handleDownload}
-            className="flex-1 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition duration-300"
-          >
-            {isEditing ? "Download Edited Meme" : "Download Meme"}
-          </button>
-
-          <button
-            onClick={handleEdit}
-            className="flex-1 px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600 transition duration-300"
-          >
-            {isEditing ? "Cancel Editing" : "Edit Meme"}
-          </button>
+          {isEditing && (
+            <div className="flex gap-4">
+              <button
+                onClick={( ) => {}}
+                className="flex-1 px-4 py-2 bg-purple-500 text-white rounded hover:bg-purple-600 transition duration-300"
+              >
+                ➕ Add Text
+              </button>
+              <button
+                onClick={() => {}}
+                className="flex-1 px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600 transition duration-300"
+              >
+                ❌ Remove Text
+              </button>
+            </div>
+          )}
         </div>
+
       </motion.div>
     </motion.div>
   );
