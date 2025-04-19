@@ -3,10 +3,12 @@ import React, { useEffect, useRef, useState } from "react";
 import { motion } from "framer-motion";
 import { AiOutlineClose } from "react-icons/ai";
 import { saveAs } from "file-saver";
-import { StaticCanvas, FabricImage } from "fabric";
+import { Canvas, FabricImage, IText} from "fabric"
+import { canvas } from "framer-motion/client";
 
 const MemeModal = ({ isOpen, onClose, meme }) => {
   const canvasRef = useRef(null);
+  const textRef = useRef(null)
   const canvasInstanceRef = useRef(null);  // Store canvas instance reference
   const [isEditing, setIsEditing] = useState(false);
 
@@ -28,7 +30,7 @@ const MemeModal = ({ isOpen, onClose, meme }) => {
           canvasInstanceRef.current.dispose();
         }
 
-        const canvas = new StaticCanvas(canvasRef.current, {
+        const canvas = new Canvas(canvasRef.current, {
           width: 500,
           height: 500,
         });
@@ -58,19 +60,10 @@ const MemeModal = ({ isOpen, onClose, meme }) => {
           }
         }
       }
+      console.log('canvasRef.cutrent is false', canvasRef.current, canvasInstanceRef.current)
     };
 
     initializeCanvas();
-
-    // Cleanup
-    return () => {
-      controller.abort();  // Abort async operations
-      if (canvasInstanceRef.current) {
-        canvasInstanceRef.current.clear();
-        canvasInstanceRef.current.dispose();
-        canvasInstanceRef.current = null;  // Reset reference
-      }
-    };
   }, [isOpen, isEditing, meme]);
 
   if (!isOpen || !meme) return null;
@@ -90,6 +83,30 @@ const MemeModal = ({ isOpen, onClose, meme }) => {
   const handleEdit = () => {
     setIsEditing((prev) => !prev);
   };
+
+  const handleAddText = () => {
+    console.log('addTexg')
+    if (canvasInstanceRef.current) {
+      const canvas = canvasInstanceRef.current;
+  
+      const text = new IText("Edit me", {
+        left: 50,
+        top: 50,
+        fontSize: 24,
+        fill: "white",
+        editable: true,
+      });
+  
+      canvas.add(text);
+      // canvas.setActiveObject(text);;
+      console.log('active', canvas)
+      canvas.renderAll();
+  
+      textRef.current = text; // Store ref to last added text
+    }
+    console.log('else', { canvasInstanceRef: canvasInstanceRef, canvasRef: canvasRef })
+  };
+  
 
   return (
     <motion.div
@@ -116,7 +133,7 @@ const MemeModal = ({ isOpen, onClose, meme }) => {
           <AiOutlineClose size={24} />
         </button>
 
-        {isEditing ? (
+        {isEditing || canvasRef.current ? (
           <canvas ref={canvasRef} className="max-w-full max-h-[60vh] object-contain rounded-lg mb-4" />
         ) : (
           <img
@@ -140,7 +157,7 @@ const MemeModal = ({ isOpen, onClose, meme }) => {
           {isEditing && (
             <div className="flex gap-4">
               <button
-                onClick={( ) => {}}
+                onClick={handleAddText}
                 className="flex-1 px-4 py-2 bg-purple-500 text-white rounded hover:bg-purple-600 transition duration-300"
               >
                 ➕ Add Text
