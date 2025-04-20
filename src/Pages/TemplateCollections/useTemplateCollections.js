@@ -6,12 +6,14 @@ import TVShowsMemeTmpl from '../../Data/memeTemplates/tvshows.json';
 import NSFWMemeTmpl from '../../Data/memeTemplates/nsfw.json';
 
 
-// Ensure the imported data is in array format
+// Ensure the imported data is in array format 
+// add an id = needed in edit by index page
 const allMemeData = [
   ...(Array.isArray(topRatedMemeTmpl) ? topRatedMemeTmpl : []),
   ...(Array.isArray(TVShowsMemeTmpl) ? TVShowsMemeTmpl : []),
   ...(Array.isArray(NSFWMemeTmpl) ? NSFWMemeTmpl : [])
-];
+].map((meme, index) => ({ ...meme, id: index + 1 }));
+
 
 
 const useTemplateCollections = () => {
@@ -102,6 +104,7 @@ const useTemplateCollections = () => {
   const handleMemeClick = (meme) => {
     setSelectedMeme(meme);
     setIsModalOpen(true);
+    console.log('meme clicked--->', meme)
   };
 
   return {

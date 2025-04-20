@@ -6,6 +6,7 @@ import SplashScreen from "./Components/SplashScreen";
 import Navbar from './Components/Nav/index'
 import CollectionsPage from './Pages/TemplateCollections/index';
 import WorkInProgress from "./Components/WorkInProgress/index";
+import EditMeme from "./Pages/EditMeme";
 
 
 function App() {
@@ -21,8 +22,8 @@ function App() {
       // Show splash screen for the first time during this session
       const timer = setTimeout(() => {
         setLoading(false);
-        sessionStorage.setItem("splashShown", "true"); 
-      }, 3000); 
+        sessionStorage.setItem("splashShown", "true");
+      }, 3000);
 
       return () => clearTimeout(timer);
     }
@@ -38,12 +39,13 @@ function App() {
           <Routes>
             <Route path="/" element={<HomePage />} />
             <Route path="/collections" element={<CollectionsPage />} />
-            <Route path="/working" element={<WorkInProgress/>}/>
+            <Route path="/working" element={<WorkInProgress />} />
+            <Route path="/edit/:id" element={<EditMeme />} />
           </Routes>
         )}
       </div>
     </div>
   );
-}  
+}
 
 export default App;

@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import { AiOutlineClose } from "react-icons/ai";
 import { saveAs } from "file-saver";
 import { Canvas, FabricImage, IText} from "fabric"
+import { useNavigate } from "react-router-dom";
 import { canvas } from "framer-motion/client";
 
 const MemeModal = ({ isOpen, onClose, meme }) => {
@@ -11,6 +12,8 @@ const MemeModal = ({ isOpen, onClose, meme }) => {
   const textRef = useRef(null)
   const canvasInstanceRef = useRef(null);  // Store canvas instance reference
   const [isEditing, setIsEditing] = useState(false);
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (isOpen) {
@@ -81,7 +84,8 @@ const MemeModal = ({ isOpen, onClose, meme }) => {
   };
 
   const handleEdit = () => {
-    setIsEditing((prev) => !prev);
+    // setIsEditing((prev) => !prev);
+    navigate(`/edit/${meme.id}`); // Navigate to edit page
   };
 
   const handleAddText = () => {
@@ -168,6 +172,19 @@ const MemeModal = ({ isOpen, onClose, meme }) => {
               >
                 ❌ Remove Text
               </button>
+            </div>
+          )}
+
+          {textRef.current && (
+            <div className="flex gap-4">
+              <label className="flex items-center gap-2">
+                Text Color:
+                <input
+                  type="color"
+                  onChange={() => { }}
+                  value={textRef.current.fill}
+                />
+              </label>
             </div>
           )}
         </div>
