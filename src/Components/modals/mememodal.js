@@ -3,16 +3,12 @@ import React, { useEffect, useRef, useState } from "react";
 import { motion } from "framer-motion";
 import { AiOutlineClose } from "react-icons/ai";
 import { saveAs } from "file-saver";
-import { Canvas, FabricImage, IText} from "fabric"
+import { Canvas, FabricImage, IText } from "fabric"
 import { useNavigate } from "react-router-dom";
 import { canvas } from "framer-motion/client";
 
 const MemeModal = ({ isOpen, onClose, meme }) => {
-  const canvasRef = useRef(null);
-  const textRef = useRef(null)
-  const canvasInstanceRef = useRef(null);  // Store canvas instance reference
   const [isEditing, setIsEditing] = useState(false);
-
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -21,96 +17,17 @@ const MemeModal = ({ isOpen, onClose, meme }) => {
     } else {
       document.body.style.overflow = "auto";
     }
-
-    const controller = new AbortController();
-    const { signal } = controller;
-
-    const initializeCanvas = async () => {
-      if (isOpen && isEditing && canvasRef.current) {
-        // Cleanup previous canvas
-        if (canvasInstanceRef.current) {
-          canvasInstanceRef.current.clear();
-          canvasInstanceRef.current.dispose();
-        }
-
-        const canvas = new Canvas(canvasRef.current, {
-          width: 500,
-          height: 500,
-        });
-
-        canvasInstanceRef.current = canvas;  // Store reference
-
-        try {
-          const img = await FabricImage.fromURL(meme.src);
-          if (!signal.aborted) {  // Only add image if not aborted 
-
-            const maxWidth = canvas.getWidth();
-            const maxHeight = canvas.getHeight();
-            const scale = Math.min(maxWidth / img.width, maxHeight / img.height);
-
-            img.scale(scale);
-            img.set({
-              left: (maxWidth - img.width * scale) / 2,
-              top: (maxHeight - img.height * scale) / 2,
-              selectable: false,
-            });
-            canvas.add(img);
-            canvas.renderAll();
-          }
-        } catch (error) {
-          if (error.name !== "AbortError") {
-            console.error("Failed to load image:", error);
-          }
-        }
-      }
-      console.log('canvasRef.cutrent is false', canvasRef.current, canvasInstanceRef.current)
-    };
-
-    initializeCanvas();
-  }, [isOpen, isEditing, meme]);
+  }, [isOpen]);
 
   if (!isOpen || !meme) return null;
 
   const handleDownload = () => {
-    if (isEditing && canvasInstanceRef.current) {
-      const editedMeme = canvasInstanceRef.current.toDataURL({
-        format: "jpeg",
-        quality: 0.9,
-      });
-      saveAs(editedMeme, `${meme.alt || "meme"}.jpg`);
-    } else {
-      saveAs(meme.src, `${meme.alt || "meme"}.jpg`);
-    }
+    saveAs(meme.src, `${meme.alt || "meme"}.jpg`);
   };
 
   const handleEdit = () => {
-    // setIsEditing((prev) => !prev);
     navigate(`/edit/${meme.id}`); // Navigate to edit page
   };
-
-  const handleAddText = () => {
-    console.log('addTexg')
-    if (canvasInstanceRef.current) {
-      const canvas = canvasInstanceRef.current;
-  
-      const text = new IText("Edit me", {
-        left: 50,
-        top: 50,
-        fontSize: 24,
-        fill: "white",
-        editable: true,
-      });
-  
-      canvas.add(text);
-      // canvas.setActiveObject(text);;
-      console.log('active', canvas)
-      canvas.renderAll();
-  
-      textRef.current = text; // Store ref to last added text
-    }
-    console.log('else', { canvasInstanceRef: canvasInstanceRef, canvasRef: canvasRef })
-  };
-  
 
   return (
     <motion.div
@@ -137,15 +54,13 @@ const MemeModal = ({ isOpen, onClose, meme }) => {
           <AiOutlineClose size={24} />
         </button>
 
-        {isEditing || canvasRef.current ? (
-          <canvas ref={canvasRef} className="max-w-full max-h-[60vh] object-contain rounded-lg mb-4" />
-        ) : (
-          <img
-            src={meme.src}
-            alt={meme.alt}
-            className="max-w-full max-h-[60vh] object-contain rounded-lg mb-4"
-          />
-        )}
+
+        <img
+          src={meme.src}
+          alt={meme.alt}
+          className="max-w-full max-h-[60vh] object-contain rounded-lg mb-4"
+        />
+
 
         <h2 className="text-xl font-semibold mb-2 text-center">{meme.alt}</h2>
         <div className="flex flex-col gap-3">
@@ -157,36 +72,6 @@ const MemeModal = ({ isOpen, onClose, meme }) => {
               {isEditing ? "Cancel Editing" : "Edit Meme"}
             </button>
           </div>
-
-          {isEditing && (
-            <div className="flex gap-4">
-              <button
-                onClick={handleAddText}
-                className="flex-1 px-4 py-2 bg-purple-500 text-white rounded hover:bg-purple-600 transition duration-300"
-              >
-                ➕ Add Text
-              </button>
-              <button
-                onClick={() => {}}
-                className="flex-1 px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600 transition duration-300"
-              >
-                ❌ Remove Text
-              </button>
-            </div>
-          )}
-
-          {textRef.current && (
-            <div className="flex gap-4">
-              <label className="flex items-center gap-2">
-                Text Color:
-                <input
-                  type="color"
-                  onChange={() => { }}
-                  value={textRef.current.fill}
-                />
-              </label>
-            </div>
-          )}
         </div>
 
       </motion.div>

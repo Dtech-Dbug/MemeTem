@@ -6,7 +6,7 @@ import SplashScreen from "./Components/SplashScreen";
 import Navbar from './Components/Nav/index'
 import CollectionsPage from './Pages/TemplateCollections/index';
 import WorkInProgress from "./Components/WorkInProgress/index";
-import EditMeme from "./Pages/EditMeme";
+import EditMeme from "./Pages/EditMeme/EditMeme";
 
 
 function App() {
