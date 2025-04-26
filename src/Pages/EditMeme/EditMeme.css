@@ -1,0 +1,13 @@
+
+.custom-label-container{
+    display: flex;
+    align-items: center;
+    justify-content: flex-start
+}
+
+.custom-color-picker{
+    height: 1.5rem;
+    width : 1.5rem;
+    margin-left: 0.5rem;
+    cursor: pointer;
+}

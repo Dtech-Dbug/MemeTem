@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef , useState} from "react";
 import { useParams } from "react-router-dom";
 import { Canvas, FabricImage, IText } from "fabric";
 import useTemplateCollections from "../../Pages/TemplateCollections/useTemplateCollections";
@@ -9,6 +9,8 @@ const useEditMeme = () => {
     const { memeTemplates } = useTemplateCollections();
     const selectedMeme = memeTemplates.find(meme => meme.id === parseInt(id));
 
+    const [textValue,] = useState("Edit me")
+
     const canvasRef = useRef(null);
     const canvasInstanceRef = useRef(null);
     const textRef = useRef(null)
@@ -18,7 +20,7 @@ const useEditMeme = () => {
         if (canvasInstanceRef.current) {
             const canvas = canvasInstanceRef.current;
 
-            const text = new IText("Edit me", {
+            const text = new IText(textValue, {
                 left: 50,
                 top: 50,
                 fontSize: 24,
@@ -26,6 +28,7 @@ const useEditMeme = () => {
                 editable: true,
                 hasControls: true,
                 selectable: true,
+                textAlign: 'left',
             });
 
             text.controls.deleteControl = deleteControl
@@ -36,10 +39,21 @@ const useEditMeme = () => {
             canvas.renderAll();
 
             textRef.current = text; // Store ref to last added text
+
         }
         console.log('else', { canvasInstanceRef: canvasInstanceRef, canvasRef: canvasRef })
     };
 
+    const handleColorChange = (e) => {
+        if (canvasInstanceRef.current){
+            const canvas = canvasInstanceRef.current;
+            console.log('handleColorChange', e.target.value)
+            console.log('textRef', textRef.current)
+            textRef.current.set({fill: e.target.value});
+            canvas.renderAll();
+        }
+    }
+    
     useEffect(() => {
         const controller = new AbortController();
         const { signal } = controller;
@@ -89,7 +103,9 @@ const useEditMeme = () => {
 
     return {
         canvasRef,
+        textValue,
         handleAddText,
+        handleColorChange,
     };
 }
 
