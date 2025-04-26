@@ -2,7 +2,7 @@ import useEditMeme from "./useEditMeme";
 import './EditMeme.css'; // Assuming you have a CSS file for styles
 
 const EditMeme = () => {
-    const { canvasRef, handleAddText } = useEditMeme();
+    const { canvasRef, handleAddText, handleColorChange } = useEditMeme();
     return (
         <div className="flex flex-row w-full h-screen p-4 box-border gap-4">
             {/* Canvas Area */}
@@ -18,7 +18,7 @@ const EditMeme = () => {
                 </button>
                 <label className="text-sm font-medium custom-label-container">
                     Change Text Color:
-                    <input type="color" className="custom-color-picker" />
+                    <input type="color" className="custom-color-picker" onChange={handleColorChange} />
                 </label>
                 {/*  more controls like font size, position, etc. */}
             </div>
