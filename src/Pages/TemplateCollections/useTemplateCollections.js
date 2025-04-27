@@ -101,6 +101,7 @@ const useTemplateCollections = () => {
     searchQuery,
     suggestions,
     showSuggestions,
+    setShowSuggestions,
     isModalOpen,
     selectedMeme,
     handleSearchChange,

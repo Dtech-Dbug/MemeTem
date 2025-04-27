@@ -23,7 +23,7 @@ const CollectionPage = () => {
     filteredMemes,
     setSearchQuery,
     setIsModalOpen,
-    loadImages,
+    setShowSuggestions
   } = useTemplateCollections();
 
   const { currentPage, incrementPage } = useContext(AppCtxProvider); // Access the context
@@ -40,6 +40,7 @@ const CollectionPage = () => {
             className="border-2 border-gray-300 rounded-full pl-10 pr-10 py-3 w-full bg-white bg-opacity-30 backdrop-blur-md text-gray-800 focus:outline-none focus:ring-4 focus:ring-green-300 transition-all duration-300 ease-in-out shadow-lg placeholder-gray-500"
             onChange={(e) => handleSearchChange(e.target.value)} // Using debounce for search
             onKeyDown={handleKeyDown}
+            value={searchQuery}
           />
           <MdOutlineAutoFixHigh
             className="absolute right-3 mr-5 top-3 text-green-400 cursor-pointer"
@@ -52,7 +53,10 @@ const CollectionPage = () => {
                 <li
                   key={index}
                   className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
-                  onClick={() => setSearchQuery(suggestion.alt)}
+                  onClick={() => {
+                    setSearchQuery(suggestion.alt)
+                    setShowSuggestions(false);
+                  }}
                 >
                   {suggestion.alt}
                 </li>
