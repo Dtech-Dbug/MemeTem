@@ -3,6 +3,8 @@ import { FiSearch } from "react-icons/fi";
 import { MdOutlineAutoFixHigh } from "react-icons/md";
 import MemeModal from "../../Components/modals/mememodal";
 import useTemplateCollections from "./useTemplateCollections";
+import { useContext } from "react";
+import { AppCtxProvider } from "../../provider"; // Import the context
 
 const CollectionPage = () => {
   const {
@@ -23,6 +25,8 @@ const CollectionPage = () => {
     setIsModalOpen,
     loadImages,
   } = useTemplateCollections();
+
+  const { currentPage, incrementPage } = useContext(AppCtxProvider); // Access the context
 
 
   return (
@@ -82,7 +86,7 @@ const CollectionPage = () => {
       {loading && <p>Loading...</p>}
       {hasMore && (
         <button
-          onClick={loadImages}
+          onClick={incrementPage}
           disabled={loading}
           className="m-4 p-2 bg-blue-500 text-white rounded hover:bg-blue-600"
         >
