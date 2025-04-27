@@ -48,9 +48,8 @@ const useTemplateCollections = () => {
     } else {
       setMemeTemplates((prevMemes) => [...prevMemes, ...newMemes]);
     }
-
     setLoading(false);
-  }, [hasMore, loading, currentPage]);
+  }, [hasMore, currentPage]);
 
   const handleSearchChange = (query) => {
     setSearchQuery(query);
@@ -67,7 +66,7 @@ const useTemplateCollections = () => {
     if (!searchQuery) {
       loadImages();
     }
-  }, [loadImages, searchQuery, hasMore]);
+  }, [searchQuery, loadImages]);
 
   useEffect(() => {
     if (searchQuery && showSuggestions) {
@@ -75,7 +74,7 @@ const useTemplateCollections = () => {
     } else {
       setSuggestions([]);
     }
-  }, [searchQuery, filteredMemes, showSuggestions, suggestions]);
+  }, [searchQuery, showSuggestions]);
 
   const handleKeyDown = (event) => {
     if (event.key === "Enter") {
