@@ -1,21 +1,18 @@
 import { useState, useEffect, useCallback, useContext } from "react";
-import {AppCtxProvider} from '../../provider';
+import { AppCtxProvider } from "../../provider";
 
 // Import JSON files
-import topRatedMemeTmpl from '../../Data/memeTemplates/top.json';
-import TVShowsMemeTmpl from '../../Data/memeTemplates/tvshows.json';
-import NSFWMemeTmpl from '../../Data/memeTemplates/nsfw.json';
+import topRatedMemeTmpl from "../../Data/memeTemplates/top.json";
+import TVShowsMemeTmpl from "../../Data/memeTemplates/tvshows.json";
+import NSFWMemeTmpl from "../../Data/memeTemplates/nsfw.json";
 
-
-// Ensure the imported data is in array format 
+// Ensure the imported data is in array format
 // add an id = needed in edit by index page
 const allMemeData = [
   ...(Array.isArray(topRatedMemeTmpl) ? topRatedMemeTmpl : []),
   ...(Array.isArray(TVShowsMemeTmpl) ? TVShowsMemeTmpl : []),
-  ...(Array.isArray(NSFWMemeTmpl) ? NSFWMemeTmpl : [])
+  ...(Array.isArray(NSFWMemeTmpl) ? NSFWMemeTmpl : []),
 ].map((meme, index) => ({ ...meme, id: index + 1 }));
-
-
 
 const useTemplateCollections = () => {
   const [memeTemplates, setMemeTemplates] = useState([]); // Displayed memes
@@ -27,20 +24,20 @@ const useTemplateCollections = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedMeme, setSelectedMeme] = useState(null);
 
-  const { currentPage } = useContext(AppCtxProvider); 
+  const { currentPage } = useContext(AppCtxProvider);
 
   const memesPerPage = 50;
 
   // Lazy load images
   const loadImages = useCallback(() => {
-    console.log("loadImages running", {currentPage});
+    console.log("loadImages running", { currentPage });
     if (loading || !hasMore) return;
 
     setLoading(true);
 
     const startIndex = (currentPage - 1) * memesPerPage;
     const endIndex = startIndex + memesPerPage;
-    console.log({startIndex, endIndex, currentPage})
+    console.log({ startIndex, endIndex, currentPage });
     const newMemes = allMemeData.slice(startIndex, endIndex);
 
     if (newMemes.length === 0) {
@@ -90,7 +87,7 @@ const useTemplateCollections = () => {
   const handleMemeClick = (meme) => {
     setSelectedMeme(meme);
     setIsModalOpen(true);
-    console.log('meme clicked--->', meme)
+    console.log("meme clicked--->", meme);
   };
 
   return {
@@ -112,8 +109,8 @@ const useTemplateCollections = () => {
     setSearchQuery,
     setIsModalOpen,
     loadImages,
-    allMemeData
+    allMemeData,
   };
-}
+};
 
 export default useTemplateCollections;

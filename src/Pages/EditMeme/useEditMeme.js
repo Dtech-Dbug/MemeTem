@@ -4,6 +4,7 @@ import { Canvas, FabricImage, IText } from "fabric";
 import useTemplateCollections from "../../Pages/TemplateCollections/useTemplateCollections";
 import { deleteControl } from "./utils";
 
+
 const useEditMeme = () => {
     const { id } = useParams();
     const { memeTemplates } = useTemplateCollections();
@@ -44,6 +45,27 @@ const useEditMeme = () => {
         console.log('else', { canvasInstanceRef: canvasInstanceRef, canvasRef: canvasRef })
     };
 
+    const handleDownload = () => {
+        const canvasElement = canvasRef.current;
+        if (!canvasElement) return;
+      
+        const fabricCanvas = canvasInstanceRef.current;
+        if (!fabricCanvas) return;
+      
+        const memeName = selectedMeme?.alt || "meme";
+      
+        fabricCanvas.getElement().toBlob((blob) => {
+          if (!blob) return;
+      
+          const link = document.createElement("a");
+          link.download = `${memeName.replace(/\s+/g, "-").toLowerCase()}-edited.png`;
+          link.href = URL.createObjectURL(blob);
+          link.click();
+      
+          setTimeout(() => URL.revokeObjectURL(link.href), 100);
+        }, "image/png");
+    }
+
     const handleColorChange = (e) => {
         if (canvasInstanceRef.current){
             const canvas = canvasInstanceRef.current;
@@ -73,7 +95,9 @@ const useEditMeme = () => {
                 canvasInstanceRef.current = canvas;
 
                 try {
-                    const img = await FabricImage.fromURL(selectedMeme.src);
+                    const img = await FabricImage.fromURL(selectedMeme.src, {
+                        crossOrigin: "anonymous",
+                      });
                     if (!signal.aborted) {
                         const maxWidth = canvas.getWidth();
                         const maxHeight = canvas.getHeight();
@@ -106,6 +130,7 @@ const useEditMeme = () => {
         textValue,
         handleAddText,
         handleColorChange,
+        handleDownload
     };
 }
 
