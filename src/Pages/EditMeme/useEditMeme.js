@@ -1,6 +1,6 @@
 import { useEffect, useRef , useState} from "react";
 import { useParams } from "react-router-dom";
-import { Canvas, FabricImage, IText } from "fabric";
+import { Canvas, FabricImage, Textbox } from "fabric";
 import useTemplateCollections from "../../Pages/TemplateCollections/useTemplateCollections";
 import { deleteControl } from "./utils";
 
@@ -22,7 +22,7 @@ const useEditMeme = () => {
         if (canvasInstanceRef.current) {
             const canvas = canvasInstanceRef.current;
 
-            const text = new IText(textValue, {
+            const text = new Textbox(textValue, {
                 left: 50,
                 top: 50,
                 fontSize: 24,
@@ -31,7 +31,8 @@ const useEditMeme = () => {
                 editable: true,
                 hasControls: true,
                 selectable: true,
-                textAlign: 'left',
+                splitByGrapheme: true,
+                width: 100 ,
             });
 
             text.controls.deleteControl = deleteControl
