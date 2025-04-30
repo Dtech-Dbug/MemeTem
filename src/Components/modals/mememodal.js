@@ -1,14 +1,11 @@
 // MemeModal.js
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect } from "react";
 import { motion } from "framer-motion";
 import { AiOutlineClose } from "react-icons/ai";
 import { saveAs } from "file-saver";
-import { Canvas, FabricImage, IText } from "fabric"
 import { useNavigate } from "react-router-dom";
-import { canvas } from "framer-motion/client";
 
 const MemeModal = ({ isOpen, onClose, meme }) => {
-  const [isEditing, setIsEditing] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -46,7 +43,6 @@ const MemeModal = ({ isOpen, onClose, meme }) => {
       >
         <button
           onClick={() => {
-            setIsEditing(false);  // Reset editing state on close
             onClose();
           }}
           className="absolute top-2 right-2 text-gray-600 hover:text-gray-800 transition duration-200 z-10"
@@ -65,11 +61,11 @@ const MemeModal = ({ isOpen, onClose, meme }) => {
         <h2 className="text-xl font-semibold mb-2 text-center">{meme.alt}</h2>
         <div className="flex flex-col gap-3">
           <div className="flex gap-4">
-            <button onClick={handleDownload} className="flex-1 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition duration-300">
-              {isEditing ? "Download Edited Meme" : "Download Meme"}
+            <button onClick={handleDownload} className="flex-1 px-4 py-2 text-white rounded hover:bg-blue-600 transition duration-300 primary-color">
+              {"Download Meme"}
             </button>
-            <button onClick={handleEdit} className="flex-1 px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600 transition duration-300">
-              {isEditing ? "Cancel Editing" : "Edit Meme"}
+            <button onClick={handleEdit} className="flex-1 px-4 py-2 text-white rounded transition secondary-color">
+              {"Edit Meme"}
             </button>
           </div>
         </div>

@@ -34,3 +34,11 @@ code {
     /* Clip for Safari */
   }
 }
+
+.primary-color {
+  @apply bg-gradient-to-r from-indigo-500 to-indigo-900
+}
+
+.secondary-color {
+  @apply bg-purple-800
+}

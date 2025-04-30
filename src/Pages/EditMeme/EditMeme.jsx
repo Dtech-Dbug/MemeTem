@@ -13,10 +13,10 @@ const EditMeme = () => {
             {/* Edit Options */}
             <div className="w-80 p-4 bg-white shadow-md border rounded-lg flex flex-col gap-4">
                 <h2 className="text-lg font-bold">Edit Options</h2>
-                <button onClick={handleAddText} className="px-4 py-2 text-white rounded bg-gradient-to-r from-indigo-500 to-indigo-900  ">
+                <button onClick={handleAddText} className="px-4 py-2 text-white rounded primary-color">
                     + Add Text
                 </button>
-                <button onClick={handleDownload} className="px-4 py-2 text-white rounded bg-green-600  ">
+                <button onClick={handleDownload} className="px-4 py-2 text-white rounded secondary-color">
                     Download
                 </button>
                 <label className="text-sm font-medium custom-label-container">
