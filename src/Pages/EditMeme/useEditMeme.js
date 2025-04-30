@@ -7,6 +7,7 @@ import { deleteControl } from "./utils";
 
 const useEditMeme = () => {
     const { id } = useParams();
+    const colorRef = useRef("#ffffff"); 
     const { memeTemplates } = useTemplateCollections();
     const selectedMeme = memeTemplates.find(meme => meme.id === parseInt(id));
 
@@ -25,7 +26,8 @@ const useEditMeme = () => {
                 left: 50,
                 top: 50,
                 fontSize: 24,
-                fill: "white",
+                // fill: "white",
+                fill: colorRef.current,
                 editable: true,
                 hasControls: true,
                 selectable: true,
@@ -67,13 +69,20 @@ const useEditMeme = () => {
     }
 
     const handleColorChange = (e) => {
-        if (canvasInstanceRef.current){
-            const canvas = canvasInstanceRef.current;
-            console.log('handleColorChange', e.target.value)
-            console.log('textRef', textRef.current)
-            textRef.current.set({fill: e.target.value});
-            canvas.renderAll();
+        const newColor = e.target.value;
+        colorRef.current = newColor;
+
+        if (textRef.current) {
+            textRef.current.set({fill: newColor});
+            canvasInstanceRef.current.renderAll();
         }
+        // if (canvasInstanceRef.current){
+        //     const canvas = canvasInstanceRef.current;
+        //     console.log('handleColorChange', e.target.value)
+        //     console.log('textRef', textRef.current)
+        //     textRef.current.set({fill: e.target.value});
+        //     canvas.renderAll();
+        // }
     }
     
     useEffect(() => {
