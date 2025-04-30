@@ -1,22 +1,21 @@
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useContext } from "react";
+import { AppCtxProvider } from "../../provider";
 
 // Import JSON files
-import topRatedMemeTmpl from '../../Data/memeTemplates/top.json';
-import TVShowsMemeTmpl from '../../Data/memeTemplates/tvshows.json';
-import NSFWMemeTmpl from '../../Data/memeTemplates/nsfw.json';
-
+import topRatedMemeTmpl from "../../Data/memeTemplates/top.json";
+import TVShowsMemeTmpl from "../../Data/memeTemplates/tvshows.json";
+import NSFWMemeTmpl from "../../Data/memeTemplates/nsfw.json";
 
 // Ensure the imported data is in array format
+// add an id = needed in edit by index page
 const allMemeData = [
   ...(Array.isArray(topRatedMemeTmpl) ? topRatedMemeTmpl : []),
   ...(Array.isArray(TVShowsMemeTmpl) ? TVShowsMemeTmpl : []),
-  ...(Array.isArray(NSFWMemeTmpl) ? NSFWMemeTmpl : [])
-];
-
+  ...(Array.isArray(NSFWMemeTmpl) ? NSFWMemeTmpl : []),
+].map((meme, index) => ({ ...meme, id: index + 1 }));
 
 const useTemplateCollections = () => {
   const [memeTemplates, setMemeTemplates] = useState([]); // Displayed memes
-  const [currentPage, setCurrentPage] = useState(1);
   const [loading, setLoading] = useState(false);
   const [hasMore, setHasMore] = useState(true);
   const [searchQuery, setSearchQuery] = useState("");
@@ -25,39 +24,29 @@ const useTemplateCollections = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedMeme, setSelectedMeme] = useState(null);
 
-  const memesPerPage = 50; // Number of memes to load per page
+  const { currentPage } = useContext(AppCtxProvider);
+
+  const memesPerPage = 50;
 
   // Lazy load images
   const loadImages = useCallback(() => {
-    console.log("loadImages running");
+    console.log("loadImages running", { currentPage });
     if (loading || !hasMore) return;
 
     setLoading(true);
 
     const startIndex = (currentPage - 1) * memesPerPage;
     const endIndex = startIndex + memesPerPage;
+    console.log({ startIndex, endIndex, currentPage });
     const newMemes = allMemeData.slice(startIndex, endIndex);
 
     if (newMemes.length === 0) {
       setHasMore(false);
     } else {
       setMemeTemplates((prevMemes) => [...prevMemes, ...newMemes]);
-      setCurrentPage((prevPage) => prevPage + 1);
     }
-
     setLoading(false);
-  }, [currentPage, hasMore, loading]);
-
-  // // Search Debounce Logic
-  // const debounceSearch = useCallback((callback, delay) => {
-  //   let timer;
-  //   return (value) => {
-  //     clearTimeout(timer);
-  //     timer = setTimeout(() => {
-  //       callback(value);
-  //     }, delay);
-  //   };
-  // }, []);
+  }, [hasMore, currentPage]);
 
   const handleSearchChange = (query) => {
     setSearchQuery(query);
@@ -72,13 +61,9 @@ const useTemplateCollections = () => {
 
   useEffect(() => {
     if (!searchQuery) {
-      // Load first 50 images if search bar is empty
-      setMemeTemplates([]); // Clear the current memes
-      setCurrentPage(1); // Reset pagination
-      setHasMore(true); // Ensure more memes can be loaded
       loadImages();
     }
-  }, [loadImages, searchQuery]); // Run whenever the search query changes
+  }, [searchQuery, loadImages]);
 
   useEffect(() => {
     if (searchQuery && showSuggestions) {
@@ -86,7 +71,7 @@ const useTemplateCollections = () => {
     } else {
       setSuggestions([]);
     }
-  }, [searchQuery, filteredMemes, showSuggestions]);
+  }, [searchQuery, showSuggestions]);
 
   const handleKeyDown = (event) => {
     if (event.key === "Enter") {
@@ -102,6 +87,7 @@ const useTemplateCollections = () => {
   const handleMemeClick = (meme) => {
     setSelectedMeme(meme);
     setIsModalOpen(true);
+    console.log("meme clicked--->", meme);
   };
 
   return {
@@ -112,6 +98,7 @@ const useTemplateCollections = () => {
     searchQuery,
     suggestions,
     showSuggestions,
+    setShowSuggestions,
     isModalOpen,
     selectedMeme,
     handleSearchChange,
@@ -122,8 +109,8 @@ const useTemplateCollections = () => {
     setSearchQuery,
     setIsModalOpen,
     loadImages,
-    allMemeData
+    allMemeData,
   };
-}
+};
 
 export default useTemplateCollections;
