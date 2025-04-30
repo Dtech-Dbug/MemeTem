@@ -1,11 +1,9 @@
 import { useEffect, useRef, useState } from "react";
 import { useParams } from "react-router-dom";
-import { Canvas, FabricImage, IText, Group  } from "fabric";
-import { Rect, Circle, Triangle, Line } from 'fabric';
+import { Canvas, FabricImage, IText, Group } from "fabric";
+import { Rect, Circle, Triangle, Line } from "fabric";
 import useTemplateCollections from "../../Pages/TemplateCollections/useTemplateCollections";
 import { deleteControl } from "./utils";
-
-
 
 const useEditMeme = () => {
   const { id } = useParams();
@@ -92,57 +90,62 @@ const useEditMeme = () => {
     // }
   };
 
-  
-
   const handleAddShape = (shapeType) => {
     if (!canvasInstanceRef.current) return;
-  const canvas = canvasInstanceRef.current;
+    const canvas = canvasInstanceRef.current;
 
-  let shape;
-  const commonProps = {
-    left: 100,
-    top: 100,
-    fill: 'transparent', 
-    stroke: colorRef.current, 
-    strokeWidth: 2,
-    selectable: true,
-  };
-  
+    let shape;
+    const commonProps = {
+      left: 100,
+      top: 100,
+      fill: "transparent",
+      stroke: colorRef.current,
+      strokeWidth: 2,
+      selectable: true,
+    };
 
-  switch (shapeType) {
-    case 'rectangle':
-      shape = new Rect({ ...commonProps, width: 120, height: 80 });
-      break;
-    case 'circle':
-      shape = new Circle({ ...commonProps, radius: 50 });
-      break;
-    case 'triangle':
-      shape = new Triangle({ ...commonProps, width: 100, height: 100 });
-      break;
-    case 'line':
-      shape = new Line([50, 100, 200, 100], { stroke: colorRef.current });
-      break;
-    default:
-      return;
-  }
+    switch (shapeType) {
+      case "rectangle":
+        shape = new Rect({ ...commonProps, width: 120, height: 80 });
+        break;
+      case "circle":
+        shape = new Circle({ ...commonProps, radius: 50 });
+        break;
+      case "triangle":
+        shape = new Triangle({ ...commonProps, width: 100, height: 100 });
+        break;
+      case "line":
+        shape = new Line([50, 100, 200, 100], { stroke: colorRef.current });
+        break;
+      default:
+        return;
+    }
 
-  const shapeText = new IText('Edit Me', {
-    fontSize: 16,
-    fill: colorRef.current,
-    editable: true,
-    left: shape.left + 10,
-    top: shape.top + 10,
-  });
+    const shapeText = new IText("Edit Me", {
+      fontSize: 16,
+      fill: colorRef.current,
+      editable: true,
+      // left: shape.left + 0,
+      // top: shape.top + 10,
+    });
 
-  const group = new Group([shape, shapeText], {
-    left: shape.left,
-    top: shape.top,
-    selectable: true,
-  });
+    const shapeCenterX = shape.left + (shape.width ?? 0) / 2;
+    const shapeCenterY = shape.top + (shape.height ?? 0) / 2;
 
-  group.controls.deleteControl = deleteControl;
-  canvas.add(group);
-  canvas.renderAll();
+    shapeText.left = shapeCenterX - shapeText.width / 2;
+    shapeText.top = shapeCenterY - shapeText.height / 2;
+
+    canvas.remove(shapeText);
+
+    const group = new Group([shape, shapeText], {
+      left: shape.left,
+      top: shape.top,
+      selectable: true,
+    });
+
+    group.controls.deleteControl = deleteControl;
+    canvas.add(group);
+    canvas.renderAll();
   };
 
   useEffect(() => {
@@ -198,7 +201,7 @@ const useEditMeme = () => {
 
   useEffect(() => {
     const handleKeyDown = (e) => {
-      if (e.key === 'Delete' || e.key === 'Backspace') {
+      if (e.key === "Delete" || e.key === "Backspace") {
         const canvas = canvasInstanceRef.current;
         const activeObject = canvas?.getActiveObject();
         if (activeObject) {
@@ -207,9 +210,9 @@ const useEditMeme = () => {
         }
       }
     };
-  
-    window.addEventListener('keydown', handleKeyDown);
-    return () => window.removeEventListener('keydown', handleKeyDown);
+
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
   }, []);
 
   return {
