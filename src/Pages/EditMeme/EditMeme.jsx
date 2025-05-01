@@ -8,6 +8,11 @@ const EditMeme = () => {
     handleColorChange,
     handleDownload,
     handleAddShape,
+    disableFreeDrawing,
+    enableFreeDrawing,
+    setBrushSize,
+    brushSize,
+    isDrawingMode,
   } = useEditMeme();
   return (
     <div className="flex flex-row w-full h-screen p-4 box-border gap-4">
@@ -51,8 +56,40 @@ const EditMeme = () => {
             <option value="">-- Select Shape --</option>
             <option value="rectangle">Rectangle</option>
             <option value="circle">Circle</option>
+            <option value="cloud">Cloud</option>
           </select>
         </label>
+        {/* <h3 className="text-md font-semibold">Draw any shape</h3> */}
+
+        <label className="text-sm font-medium custom-label-container">
+          Brush Size:
+          <input
+            type="range"
+            min="1"
+            max="20"
+            value={brushSize}
+            onChange={(e) => setBrushSize(parseInt(e.target.value))}
+            className="w-full"
+          />
+        </label>
+
+        <div className="flex gap-2">
+          {!isDrawingMode ? (
+            <button
+              onClick={enableFreeDrawing}
+              className="px-4 py-2 bg-green-600 text-white rounded"
+            >
+              Start Drawing
+            </button>
+          ) : (
+            <button
+              onClick={disableFreeDrawing}
+              className="px-4 py-2 bg-red-600 text-white rounded"
+            >
+              Stop Drawing
+            </button>
+          )}
+        </div>
         {/*  more controls like font size, position, etc. */}
       </div>
     </div>
