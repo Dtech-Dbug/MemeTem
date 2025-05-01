@@ -36,7 +36,7 @@ const useEditMeme = () => {
     canvas.isDrawingMode = true;
     canvas.freeDrawingBrush.color = colorRef.current;
     canvas.freeDrawingBrush.width = brushSize;
-
+   
     setIsDrawingMode(true);
   };
 
@@ -184,6 +184,13 @@ const useEditMeme = () => {
         canvas.freeDrawingBrush.width = brushSize;
 
         canvasInstanceRef.current = canvas;
+
+        canvas.on("path:created", (e) => {
+          const path = e.path;
+          path.selectable = true;
+          path.controls.deleteControl = deleteControl;
+          canvas.renderAll();
+        });
 
         try {
           const img = await FabricImage.fromURL(selectedMeme.src, {
